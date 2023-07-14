@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:tibloo/AuthenticationModule/LoginPage.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
-        debugShowCheckedModeBanner: false, title: "Tibloo", home: LoginPage()),
+        builder: EasyLoading.init(),
+        debugShowCheckedModeBanner: false,
+        title: "Tibloo",
+        home: LoginPage()),
   );
 }
