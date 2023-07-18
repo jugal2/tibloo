@@ -957,9 +957,15 @@ class _UploadDocumentPageState extends State<UploadDocumentPage> {
                       content: Text("Please Upload If Any Remark"),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            PaymentPage(application_id: widget.application_id),
+                      ),
+                    );
                   }
-                  /* Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => PaymentPage()));*/
                 },
                 child: Container(
                   margin: EdgeInsets.only(left: 20, right: 20),

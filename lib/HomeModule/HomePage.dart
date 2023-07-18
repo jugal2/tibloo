@@ -11,6 +11,7 @@ import 'package:tibloo/FormModule/ApplicantFormPage.dart';
 import 'package:tibloo/HomeModule/AccommodationPage.dart';
 import 'package:tibloo/HomeModule/EmploymentPage.dart';
 import 'package:tibloo/HomeModule/HomePage.dart';
+import 'package:tibloo/ProfileModule/ProfilePage.dart';
 import 'package:tibloo/globals.dart' as global;
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -172,10 +173,18 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     children: [
                       Padding(padding: EdgeInsets.only(left: 10)),
-                      Image.asset(
-                        'assets/user.png',
-                        height: 30,
-                        color: HexColor(global.primary_color),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProfilePage()));
+                        },
+                        child: Image.asset(
+                          'assets/user.png',
+                          height: 30,
+                          color: HexColor(global.primary_color),
+                        ),
                       ),
                       Padding(padding: EdgeInsets.only(left: 10)),
                       Padding(
@@ -189,10 +198,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      /* Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => FilePickerDemo()));
+                              builder: (context) => FilePickerDemo()));*/
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(right: 20.0),

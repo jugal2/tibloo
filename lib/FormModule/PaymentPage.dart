@@ -38,7 +38,11 @@ void configLoading() {
 }
 
 class PaymentPage extends StatefulWidget {
-  const PaymentPage({Key? key}) : super(key: key);
+  final String? application_id;
+  const PaymentPage({
+    Key? key,
+    this.application_id,
+  }) : super(key: key);
 
   @override
   State<PaymentPage> createState() => _PaymentPageState();
@@ -48,6 +52,7 @@ class _PaymentPageState extends State<PaymentPage> {
   void initState() {
     super.initState();
     this.getPaymentPage();
+    this.getPackageDetails();
   }
 
   List sop_services = [];
@@ -57,6 +62,13 @@ class _PaymentPageState extends State<PaymentPage> {
   List bottomInfoData = [];
 
   var sop_country_image_path = "";
+  var country_name = "";
+  var applicant_name = "";
+  var contact = "";
+  var email = "";
+  var package_price = "";
+  var package_name = "";
+  var service_name = "";
 
   Future<String> getPaymentPage() async {
     print("PaymentPage Data Api Runs");
@@ -93,7 +105,6 @@ class _PaymentPageState extends State<PaymentPage> {
       EasyLoading.dismiss();
       setState(() {
         sop_services = resp['sop_services'];
-        sop_country_image_path = resp['sop_country_image_path'];
         top_banner = resp['bottom_banners'];
         bottomInfoData = resp['bottom_info'];
       });
@@ -102,21 +113,22 @@ class _PaymentPageState extends State<PaymentPage> {
     return "Success";
   }
 
-  Future<String> getPackages(sop_service_id, sop_country_id) async {
-    print("PaymentPage Data Api Runs");
+  Future<String> getPackageDetails() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     var user_id = pref.getString("user_id");
 
     // final auths = await Authorization();
-    var res = await http
-        .post(Uri.parse(global.api_base_url + "get_packages"), headers: {
-      "Accept": "application/json",
-      "Authorization": 'Bearer ' + global.authToken,
-    }, body: {
-      "secrete": "dacb465d593bd139a6c28bb7289fa798",
-      "sop_service_id": sop_service_id,
-      "sop_country_id": sop_country_id,
-    });
+    var res = await http.post(
+      Uri.parse(global.api_base_url + "confirm_sop_package_details"),
+      headers: {
+        "Accept": "application/json",
+        "Authorization": 'Bearer ' + global.authToken,
+      },
+      body: {
+        "secrete": "dacb465d593bd139a6c28bb7289fa798",
+        "application_id": widget.application_id,
+      },
+    );
 
     var resp = json.decode(res.body);
 
@@ -136,31 +148,17 @@ class _PaymentPageState extends State<PaymentPage> {
     } else {
       EasyLoading.dismiss();
       setState(() {
-        packages_data = resp['sop_packages'];
+        sop_country_image_path = resp['country_image'];
+        country_name = resp['country_name'];
+        applicant_name = resp['applicant_name'];
+        contact = resp['contact'];
+        email = resp['email'];
+        package_price = resp['package_price'];
+        package_name = resp['package_name'];
+        service_name = resp['service_name'];
       });
     }
     return "Success";
-  }
-
-  var selected_sop_service = "";
-  var sopServiceIndex = 0;
-
-  List<String> _locations = [
-    'Please choose Employment Status',
-    'A',
-    'B',
-    'C',
-    'D'
-  ]; // Option 1
-  String _selectedLocation = 'Please choose Employment Status'; // Option 1
-
-  final ImagePicker _picker = ImagePicker();
-  File? uploadimage;
-  Future<void> chooseImage() async {
-    var choosedimage = await _picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      uploadimage = File(choosedimage!.path);
-    });
   }
 
   @override
@@ -331,7 +329,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        sop_services[0]['sop_service_name'].toString(),
+                        service_name,
                         style: GoogleFonts.montserrat(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -339,14 +337,13 @@ class _PaymentPageState extends State<PaymentPage> {
                         ),
                       ),
                       Image.network(
-                        sop_country_image_path +
-                            sop_services[0]["packages"][0]["country_image"],
+                        sop_country_image_path,
                         height: 50,
                       ),
                     ],
                   ),
                   Text(
-                    sop_services[0]['packages'][0]['country_name'].toString(),
+                    country_name,
                     style: GoogleFonts.montserrat(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -364,7 +361,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "John Doe",
+                        applicant_name,
                         style: GoogleFonts.montserrat(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -372,7 +369,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         ),
                       ),
                       Text(
-                        "9876543210",
+                        contact,
                         style: GoogleFonts.montserrat(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -384,7 +381,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   Container(
                     margin: EdgeInsets.only(top: 10),
                     child: Text(
-                      "example@gmail.com",
+                      email,
                       style: GoogleFonts.montserrat(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -393,10 +390,22 @@ class _PaymentPageState extends State<PaymentPage> {
                     ),
                   ),
                   Container(
+                    margin: EdgeInsets.only(top: 20),
                     alignment: Alignment.center,
-                    margin: EdgeInsets.only(top: 30),
                     child: Text(
-                      ' \u{20B9} ' + sop_services[0]["packages"][0]["price"],
+                      package_name,
+                      style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(top: 10),
+                    child: Text(
+                      ' \u{20B9} ' + package_price,
                       style: GoogleFonts.montserrat(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -406,6 +415,19 @@ class _PaymentPageState extends State<PaymentPage> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      global.employment_certificate_path = null;
+                      global.passport_copy_path = null;
+                      global.course_certificate_path = null;
+                      global.training_course_path = null;
+                      global.marriage_certificate_path = null;
+                      global.ielts_certificate_path = null;
+                      global.offer_letter_path = null;
+                      global.loan_letter_path = null;
+                      global.tuition_fee_receiept_path = null;
+                      global.fund_related_doc_path = null;
+                      global.extra_curriculum_path = null;
+                      global.any_remark_path = null;
+
                       Navigator.push(
                           context,
                           MaterialPageRoute(
