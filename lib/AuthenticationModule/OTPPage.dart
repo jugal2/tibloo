@@ -8,7 +8,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tibloo/AuthenticationModule/LoginPage.dart';
-import 'package:tibloo/HomeModule/MainPage.dart';
+import 'package:tibloo/HomeModule/HomePage.dart';
 import 'package:tibloo/globals.dart' as global;
 import 'package:http/http.dart' as http;
 
@@ -301,7 +301,7 @@ class _OTPPageState extends State<OTPPage> {
       print("User Id = " + global.user_id);
       // SendPushNotification();
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MainPage()));
+          context, MaterialPageRoute(builder: (context) => HomePage()));
     }
   }
 }

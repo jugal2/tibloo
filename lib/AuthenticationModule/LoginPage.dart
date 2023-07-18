@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -92,155 +93,148 @@ class _LoginPageState extends State<LoginPage> {
       onWillPop: () async => false,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        // backgroundColor: Colors.white,
+        backgroundColor: HexColor(global.primary_color),
         body: Container(
           decoration: BoxDecoration(
             color: HexColor(global.primary_color),
-            image: DecorationImage(
-                image: AssetImage("assets/waves_blue.png"),
-                fit: BoxFit.fitWidth,
-                alignment: Alignment.bottomCenter),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
+            shrinkWrap: true,
+            physics: BouncingScrollPhysics(),
             children: [
-              Wrap(
-                children: [
-                  /*  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 50),
-                          child: Image.asset(
-                            'assets/logo.jpeg',
-                            height: 60,
-                          ),
-                        ),
-                      ],
-                    ),*/
-                  Container(
-                    padding: EdgeInsets.only(top: 50, left: 20),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Hello,Welcome To ",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        Text(
-                          "TIB",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        Text(
-                          "Loo",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ),
+              Container(
+                height: 100,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(60),
+                    bottomLeft: Radius.circular(60),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(top: 7, left: 20),
-                    child: Text(
-                      "Lets Get Started",
+                ),
+                child: Image.asset(
+                  'assets/Tibloo.png',
+                  scale: 7,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 50, left: 20),
+                child: Row(
+                  children: [
+                    Text(
+                      "Hello,Welcome To ",
                       style: GoogleFonts.montserrat(
-                          fontSize: 17,
+                          fontSize: 20,
                           color: HexColor(global.secondary_color),
                           fontWeight: FontWeight.w700),
                     ),
-                  ),
-                  Image.asset(
-                    'assets/laptopback.png',
-                    height: 300,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 20, right: 20, top: 0),
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: TextField(
-                      cursorColor: Colors.white,
-                      maxLength: 10,
-                      style: GoogleFonts.montserrat(color: Colors.white),
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                        labelText: "Mobile",
-                        labelStyle: GoogleFonts.montserrat(color: Colors.white),
-                        floatingLabelStyle:
-                            GoogleFonts.montserrat(color: Colors.white),
-                        prefixIcon: Icon(Icons.phone_android),
-                        prefixIconColor: MaterialStateColor.resolveWith(
-                          (states) => states.contains(MaterialState.focused)
-                              ? Colors.white
-                              : Colors.white,
-                        ),
-                      ),
-                      controller: mobileController,
+                    Text(
+                      "Tib",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 20,
+                          color: HexColor(global.secondary_color),
+                          fontWeight: FontWeight.w700),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      // Navigator.push(context,
-                      //     MaterialPageRoute(builder: (context) => OtpPage()));
-                      setState(() {
-                        if (mobileController.text.isEmpty ||
-                            (mobileController.text.length != 10)) {
-                          final snackBar = SnackBar(
-                            margin: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).size.height - 100,
-                                right: 20,
-                                left: 20),
-                            behavior: SnackBarBehavior.floating,
-                            content: Text(
-                                "Please Check The Mobile Number You Have Entered"),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        } else {
-                          // print("log in api call start");
-                          userLogin();
-                        }
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: HexColor(global.primary_color),
-
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        // color: HexColor(global.secondary_color),
-                      ),
-                      margin: EdgeInsets.only(left: 150, right: 150, top: 20),
-                      height: 50,
-                      child: Center(
-                        child: Text(
-                          "Login",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 15,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
+                    Text(
+                      "loo",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 20,
+                          color: HexColor(global.secondary_color),
+                          fontWeight: FontWeight.w700),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Container(
+                padding: EdgeInsets.only(top: 7, left: 20),
+                child: Text(
+                  "Lets Get Started",
+                  style: GoogleFonts.montserrat(
+                      fontSize: 17,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700),
+                ),
+              ),
+              Image.asset(
+                'assets/LoginGirl.png',
+                height: 300,
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 20, right: 20, top: 0),
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: TextField(
+                  cursorColor: Colors.white,
+                  maxLength: 10,
+                  style: GoogleFonts.montserrat(color: Colors.white),
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    labelText: "Mobile",
+                    labelStyle: GoogleFonts.montserrat(color: Colors.white),
+                    floatingLabelStyle:
+                        GoogleFonts.montserrat(color: Colors.white),
+                    prefixIcon: Icon(Icons.phone_android),
+                    prefixIconColor: MaterialStateColor.resolveWith(
+                      (states) => states.contains(MaterialState.focused)
+                          ? Colors.white
+                          : Colors.white60,
+                    ),
+                  ),
+                  controller: mobileController,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => OtpPage()));
+                  setState(() {
+                    if (mobileController.text.isEmpty ||
+                        (mobileController.text.length != 10)) {
+                      final snackBar = SnackBar(
+                        margin: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height - 100,
+                            right: 20,
+                            left: 20),
+                        behavior: SnackBarBehavior.floating,
+                        content: Text(
+                            "Please Check The Mobile Number You Have Entered"),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else {
+                      // print("log in api call start");
+                      userLogin();
+                    }
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: HexColor(global.primary_color),
+
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    // color: HexColor(global.secondary_color),
+                  ),
+                  margin: EdgeInsets.only(left: 150, right: 150, top: 20),
+                  height: 50,
+                  child: Center(
+                    child: Text(
+                      "Login",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+              ),
+              /*     Container(
                 margin: EdgeInsets.only(bottom: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -268,7 +262,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-              ),
+              ),*/
 
               /*  GestureDetector(
                   onTap: () {

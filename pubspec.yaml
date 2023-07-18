@@ -42,7 +42,14 @@ dependencies:
   http: ^1.1.0
   shared_preferences: ^2.2.0
   flutter_easyloading: ^3.0.5
-
+  get: ^4.6.5
+  carousel_slider: ^4.2.1
+  dropdown_button2: ^2.3.7
+  path_provider: ^2.0.15
+  image_picker: ^1.0.1
+  file_picker: ^5.3.3
+  path: ^1.8.3
+  dio: ^5.3.0
 
 dev_dependencies:
   flutter_test:
@@ -69,8 +76,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
    - assets/
+   - assets/bottomgif.gif
+   - assets/checkgif.gif
    - assets/logo.jpeg
-   - assets/loginback.png
+   - assets/LoginGirl.png
+   - assets/uploadformblue.png
    - assets/loginback.jpg
    - assets/arrow_blue.png
    - assets/blob.png
